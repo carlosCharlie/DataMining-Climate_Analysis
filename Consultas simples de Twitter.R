@@ -1,10 +1,10 @@
 #
-# PASO 1 - Carga y ejecuci髇 del fichero de interconexi髇 con Twitter
+# PASO 1 - Carga y ejecuci贸n del fichero de interconexi贸n con Twitter
 #
-#          IMPORTANTE: El fichero "Interconexi髇 con Twitter.R" tiene
+#          IMPORTANTE: El fichero "Interconexi贸n con Twitter.R" tiene
 #                      que estar en el directorio de trabajo de R.
 #
-source("Interconexi髇 con Twitter(ALUMNOS).R")
+source("Interconexi贸n con Twitter (ALUMNOS).R")
 
 #
 # PASO 2 - Empezar a leer datos de Twitter.
@@ -21,17 +21,17 @@ str(rdmTweets[[1]])
 str(rdmTweets[[2]])
 
 #
-# Buscar tweets que incluyan alguna palabra o t閞mino.
+# Buscar tweets que incluyan alguna palabra o t茅rmino.
 #
-# Por ejemplo, sobre la palabra inglesa para "coraz髇" ("heart"):
+# Por ejemplo, sobre la palabra inglesa para "coraz贸n" ("heart"):
 #
 s1 <- searchTwitter("heart", n=200, lang="EN")
 s1
 
 #
-# O sobre la palabra espa駉la "coraz髇":
+# O sobre la palabra espa帽ola "coraz贸n":
 #
-s2 <- searchTwitter("coraz髇", n=200, lang="ES", resultType="recent")
+s2 <- searchTwitter("coraz贸n", n=200, lang="ES", resultType="recent")
 s2
 
 # Ahora sin la tilde:
@@ -43,23 +43,23 @@ s2 <- searchTwitter("corazon", n=200, resultType="recent")
 s2
 
 # Ahora sin el indicador de idioma y con tilde:
-s2 <- searchTwitter("coraz髇", n=200, resultType="recent")
+s2 <- searchTwitter("coraz贸n", n=200, resultType="recent")
 s2
 
 #
-# O sobre la expresi髇 francesa "je crois que" ("creo que"):
+# O sobre la expresi贸n francesa "je crois que" ("creo que"):
 #
 s3 <- searchTwitter("je crois que", n=200, lang="FR")
 s3
 
 #
-# O sobre la expresi髇 francesa "gilets jaunes" ("chalecos amarillos"):
+# O sobre la expresi贸n francesa "gilets jaunes" ("chalecos amarillos"):
 #
 s3 <- searchTwitter("gilets jaunes", n=200, lang="FR")
 s3
 
 #
-# O sobre las palabras espa駉las "derecho" y "salud" (en cualquier orden):
+# O sobre las palabras espa帽olas "derecho" y "salud" (en cualquier orden):
 #
 s4 <- searchTwitter("gobierno + civil", n=200, lang="ES")
 s4
