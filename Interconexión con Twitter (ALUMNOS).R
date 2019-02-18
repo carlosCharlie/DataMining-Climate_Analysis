@@ -50,13 +50,13 @@ consumerSecret <- "PSHnD04IeiuPwuI4dq2ZTc34oJXInbRkWmITjGFfRh7MHG8cLA"
 # 2.1.3.- Dar valor a la constante accessToken con su valor correspondiente,
 #         obtenido de la aplicación desarrollada en Twitter.
 #
-accessToken <- "xxxxxxxxxxxxxxxxxx"
+accessToken <- "1095687374846218241-MSOq8DunrILUsEJE0xWjakhwXxJcTR"
 
 #
 # 2.1.4.- Dar valor a la constante accessSecret con su valor correspondiente,
 #         obtenido de la aplicación desarrollada en Twitter.
 #
-accessSecret <- "xxxxxxxxxxxxxxxxxx"
+accessSecret <- "Uf2cLPBKaqGWyQ1nAoRoN1q6tD2pAb3u8u5btsu16dtNh"
 
 #
 # 2.2.- Solicitar la autorización y las credenciales y
