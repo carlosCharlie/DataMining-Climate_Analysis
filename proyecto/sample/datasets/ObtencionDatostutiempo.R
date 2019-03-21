@@ -52,6 +52,8 @@ if(url.exists(webMinable))
   
         countriesToView <- parsedContinentWebLinks[countriesOfContinent]
 
+	continentName <- substr(i, 10 ,(nchar(i)-5))
+
         for (j in countriesToView){
           countryWeb <- paste(sourceWeb,j,sep="")
           if(url.exists(countryWeb) && j != "/climate/guam.html"){
@@ -72,6 +74,8 @@ if(url.exists(webMinable))
 
             countryName <- substr(j, 10 ,(nchar(j)-5))
 
+	    countryDataFrame <- data.frame()
+
             for(k in citiesToView){
               cityWeb <- paste(sourceWeb,k,sep="")
               if(url.exists(cityWeb)){
@@ -84,17 +88,41 @@ if(url.exists(webMinable))
 
                 table <- parsedCityTables[4]
 
-                cityName <- substr(k, 10 ,(nchar(k)-5))
+		table <- data.frame(table)
 
-                name <- paste(countryName,cityName,sep="")
+		table[table=="-"] <- NA 
 
-                name <- paste(name,".csv",sep="")
-
-                write.csv(table, file=name,row.names=TRUE)
+		if(is.data.frame(table) && nrow(table)>0){
+	                countryDataFrame <- rbind(countryDataFrame ,table)
+		}		
               }
             }
           }
-          print("Another Country") 
+	  if(nrow(countryDataFrame)>0){
+	 		 names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")
+	 		 colnames(countryDataFrame) <-names 
+	  
+			  for(name in names){
+	  			countryDataFrame[name] <- apply(countryDataFrame[name],2, as.character)
+          			countryDataFrame[name] <- apply(countryDataFrame[name],2, as.numeric)
+	 		 }
+	  
+	 		 for(year in min(countryDataFrame$Year):max(countryDataFrame$Year)){
+	  
+	 		 yearSet <- countryDataFrame[countryDataFrame$Year==year,]
+	 		 yearSet <- apply(yearSet, 2, mean, na.rm=TRUE)	  
+	 		 countryDataFrame <- subset(countryDataFrame, Year!=year)
+	  		countryDataFrame <- rbind(countryDataFrame, yearSet)
+	  
+		} 
+
+	 
+			title = paste(countryName,".csv",sep="")
+			title = paste(continentName,title,sep="/")	   		
+			title = paste("./tuTiempo/",title, sep="")
+			write.csv(countryDataFrame, file=title, row.names=FALSE)
+          		print(countryName)
+		} 
         }
 
       }
