@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -8.8035, 1991, Jan, Finland, FIN
 -12.073, 1991, Feb, Finland, FIN
 -5.6405, 1991, Mar, Finland, FIN
@@ -312,4 +311,4 @@
 2.62616, 2016, Oct, Finland, FIN
 -4.2365, 2016, Nov, Finland, FIN
 -5.218, 2016, Dec, Finland, FIN
-"
+

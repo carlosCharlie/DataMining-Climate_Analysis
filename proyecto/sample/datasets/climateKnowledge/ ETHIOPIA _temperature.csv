@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 22.0271, 1991, Jan, Ethiopia, ETH
 23.2355, 1991, Feb, Ethiopia, ETH
 23.6605, 1991, Mar, Ethiopia, ETH
@@ -312,4 +311,4 @@
 23.4548, 2016, Oct, Ethiopia, ETH
 22.2788, 2016, Nov, Ethiopia, ETH
 21.7234, 2016, Dec, Ethiopia, ETH
-"
+

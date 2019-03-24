@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -0.2351, 1991, Jan, Hungary, HUN
 -2.6255, 1991, Feb, Hungary, HUN
 7.41375, 1991, Mar, Hungary, HUN
@@ -312,4 +311,4 @@
 9.85233, 2016, Oct, Hungary, HUN
 5.11012, 2016, Nov, Hungary, HUN
 -0.6465, 2016, Dec, Hungary, HUN
-"
+

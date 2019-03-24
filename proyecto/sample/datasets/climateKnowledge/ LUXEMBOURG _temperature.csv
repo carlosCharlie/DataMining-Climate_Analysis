@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 1.7498, 1991, Jan, Luxembourg, LUX
 -1.3817, 1991, Feb, Luxembourg, LUX
 7.79348, 1991, Mar, Luxembourg, LUX
@@ -312,4 +311,4 @@
 9.31176, 2016, Oct, Luxembourg, LUX
 6.08297, 2016, Nov, Luxembourg, LUX
 2.62367, 2016, Dec, Luxembourg, LUX
-"
+

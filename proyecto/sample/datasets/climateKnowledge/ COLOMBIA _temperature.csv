@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 24.7131, 1991, Jan, Colombia, COL
 25.5855, 1991, Feb, Colombia, COL
 25.3603, 1991, Mar, Colombia, COL
@@ -312,4 +311,4 @@
 25.4059, 2016, Oct, Colombia, COL
 25.1146, 2016, Nov, Colombia, COL
 25.0789, 2016, Dec, Colombia, COL
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 17.9812, 1991, Jan, Qatar, QAT
 18.4294, 1991, Feb, Qatar, QAT
 21.1118, 1991, Mar, Qatar, QAT
@@ -312,4 +311,4 @@
 29.6291, 2016, Oct, Qatar, QAT
 24.2472, 2016, Nov, Qatar, QAT
 20.7032, 2016, Dec, Qatar, QAT
-"
+

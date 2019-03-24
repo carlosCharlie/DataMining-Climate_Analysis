@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 3.55893, 1991, Jan, France, FRA
 1.80521, 1991, Feb, France, FRA
 9.06057, 1991, Mar, France, FRA
@@ -312,4 +311,4 @@
 11.4876, 2016, Oct, France, FRA
 7.808, 2016, Nov, France, FRA
 4.5887, 2016, Dec, France, FRA
-"
+

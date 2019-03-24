@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 26.25, 1991, Jan, Niue, NIU
 26.45, 1991, Feb, Niue, NIU
 26.6, 1991, Mar, Niue, NIU
@@ -312,4 +311,4 @@
 25.2, 2016, Oct, Niue, NIU
 25.5, 2016, Nov, Niue, NIU
 26.0499, 2016, Dec, Niue, NIU
-"
+

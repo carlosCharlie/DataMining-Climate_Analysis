@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -26.045, 1991, Jan, Canada, CAN
 -21.036, 1991, Feb, Canada, CAN
 -17.792, 1991, Mar, Canada, CAN
@@ -312,4 +311,4 @@
 -4.0432, 2016, Oct, Canada, CAN
 -9.6162, 2016, Nov, Canada, CAN
 -20.984, 2016, Dec, Canada, CAN
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 24.221, 1991, Jan, Namibia, NAM
 23.8673, 1991, Feb, Namibia, NAM
 23.0002, 1991, Mar, Namibia, NAM
@@ -312,4 +311,4 @@
 23.8912, 2016, Oct, Namibia, NAM
 25.2164, 2016, Nov, Namibia, NAM
 25.9093, 2016, Dec, Namibia, NAM
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -0.3981, 1991, Jan, Czech Republic, CZE
 -4.1646, 1991, Feb, Czech Republic, CZE
 5.65306, 1991, Mar, Czech Republic, CZE
@@ -312,4 +311,4 @@
 8.12499, 2016, Oct, Czech Republic, CZE
 3.14484, 2016, Nov, Czech Republic, CZE
 0.30268, 2016, Dec, Czech Republic, CZE
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 4.01576, 1991, Jan, Italy, ITA
 3.01739, 1991, Feb, Italy, ITA
 9.30409, 1991, Mar, Italy, ITA
@@ -312,4 +311,4 @@
 13.2983, 2016, Oct, Italy, ITA
 9.45366, 2016, Nov, Italy, ITA
 5.88849, 2016, Dec, Italy, ITA
-"
+

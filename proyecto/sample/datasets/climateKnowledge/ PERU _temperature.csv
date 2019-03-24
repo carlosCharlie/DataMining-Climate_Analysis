@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 20.0185, 1991, Jan, Peru, PER
 20.1905, 1991, Feb, Peru, PER
 20.1865, 1991, Mar, Peru, PER
@@ -312,4 +311,4 @@
 20.8982, 2016, Oct, Peru, PER
 20.8101, 2016, Nov, Peru, PER
 20.6144, 2016, Dec, Peru, PER
-"
+

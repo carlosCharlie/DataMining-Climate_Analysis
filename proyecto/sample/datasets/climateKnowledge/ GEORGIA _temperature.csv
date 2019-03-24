@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -6.1364, 1991, Jan, Georgia, GEO
 -5.5994, 1991, Feb, Georgia, GEO
 -0.1306, 1991, Mar, Georgia, GEO
@@ -312,4 +311,4 @@
 7.62358, 2016, Oct, Georgia, GEO
 0.73823, 2016, Nov, Georgia, GEO
 -6.6422, 2016, Dec, Georgia, GEO
-"
+

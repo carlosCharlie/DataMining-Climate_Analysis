@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 21.01, 1991, Jan, Laos, LAO
 21.3163, 1991, Feb, Laos, LAO
 24.9506, 1991, Mar, Laos, LAO
@@ -312,4 +311,4 @@
 25.0867, 2016, Oct, Laos, LAO
 23.4639, 2016, Nov, Laos, LAO
 20.9215, 2016, Dec, Laos, LAO
-"
+

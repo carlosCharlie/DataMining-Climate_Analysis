@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 15.3059, 1991, Jan, Mexico, MEX
 17.2518, 1991, Feb, Mexico, MEX
 19.4619, 1991, Mar, Mexico, MEX
@@ -312,4 +311,4 @@
 22.8233, 2016, Oct, Mexico, MEX
 19.1991, 2016, Nov, Mexico, MEX
 16.9754, 2016, Dec, Mexico, MEX
-"
+

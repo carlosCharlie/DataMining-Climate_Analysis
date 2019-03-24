@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -6.8964, 1991, Jan, Armenia, ARM
 -6.3177, 1991, Feb, Armenia, ARM
 0.56388, 1991, Mar, Armenia, ARM
@@ -312,4 +311,4 @@
 8.34964, 2016, Oct, Armenia, ARM
 0.85375, 2016, Nov, Armenia, ARM
 -6.9357, 2016, Dec, Armenia, ARM
-"
+

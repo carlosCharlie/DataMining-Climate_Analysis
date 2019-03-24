@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 2.95523, 1991, Jan, Belize, BEL
 -0.3941, 1991, Feb, Belize, BEL
 8.57952, 1991, Mar, Belize, BEL
@@ -312,4 +311,4 @@
 10.0403, 2016, Oct, Belize, BEL
 7.61452, 2016, Nov, Belize, BEL
 4.23376, 2016, Dec, Belize, BEL
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 -3.6703, 1991, Jan, Liechtenstein, LIE
 -6.4172, 1991, Feb, Liechtenstein, LIE
 1.07324, 1991, Mar, Liechtenstein, LIE
@@ -312,4 +311,4 @@
 3.35978, 2016, Oct, Liechtenstein, LIE
 -0.1402, 2016, Nov, Liechtenstein, LIE
 -1.6388, 2016, Dec, Liechtenstein, LIE
-"
+

@@ -1,5 +1,4 @@
-"","x"
-"1","Temperature - (Celsius), Year, Month, Country, ISO3
+Temperature - (Celsius), Year, Month, Country, ISO3
 10.33, 1991, Jan, Gibraltar, GIB
 9.815, 1991, Feb, Gibraltar, GIB
 12.8875, 1991, Mar, Gibraltar, GIB
@@ -312,4 +311,4 @@
 20.06, 2016, Oct, Gibraltar, GIB
 14.5175, 2016, Nov, Gibraltar, GIB
 12.74, 2016, Dec, Gibraltar, GIB
-"
+
