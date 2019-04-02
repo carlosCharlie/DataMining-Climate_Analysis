@@ -34,6 +34,23 @@ for(i in 1:(length(countries[,1]))){
 
   		tmp <- merge(df1,df2,by=c("Year","Country","Month","ISO3"))
 
+      for(year in unique(tmp$Year)){
+        littleSet <- tmp[tmp$Year==year,]
+        orderSet <- littleSet[5,]
+        orderSet <- rbind(orderSet, littleSet[4,])
+        orderSet <- rbind(orderSet, littleSet[8,])
+        orderSet <- rbind(orderSet, littleSet[1,])
+        orderSet <- rbind(orderSet, littleSet[9,])
+        orderSet <- rbind(orderSet, littleSet[7,])
+        orderSet <- rbind(orderSet, littleSet[6,])
+        orderSet <- rbind(orderSet, littleSet[2,])
+        orderSet <- rbind(orderSet, littleSet[12,])
+        orderSet <- rbind(orderSet, littleSet[11,])
+        orderSet <- rbind(orderSet, littleSet[10,])
+        orderSet <- rbind(orderSet, littleSet[3,])
+        tmp[tmp$Year==year,] <- orderSet
+      }
+
   		write.csv(tmp, file = paste("sample/datasets/climateKnowledge/",toupper(gsub(" ","_",countries[i,1])),".csv",sep=""));
   	}
   }

@@ -17,3 +17,10 @@ for(country in datasets){
 		sum(is.na(country[i]))
 	}
 }
+
+plotMonthVs <- function(dataset, var1, years){
+	months <- dataset$Month[dataset$Year==years]
+	var <- dataset[var1][dataset$Year==years,]
+	barplot(var, names.arg=months)
+}
+
