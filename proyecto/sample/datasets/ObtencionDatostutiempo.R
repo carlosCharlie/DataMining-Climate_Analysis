@@ -1,12 +1,8 @@
 rm(list=ls())
 
-# webMinable <- "https://www.iso.org/standards-catalogue/browse-by-tc.html"
-# webMinable <- "https://www.iso.org/committee/48104/x/catalogue/"
 webMinable <- "https://en.tutiempo.net/climate/"
 sourceWeb <- "https://en.tutiempo.net"
 
-# Si fuera necesaria una descarga manual, el paquete <RHTMLForms> se puede encontrar en
-# "http://www.omegahat.net/RHTMLForms/RHTMLForms_0.6-0.tar.gz"
 
 if (!require("RHTMLForms")) install_github("omegahat/RHTMLForms")
 require("RHTMLForms")
