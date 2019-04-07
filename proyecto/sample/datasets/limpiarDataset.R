@@ -1,5 +1,5 @@
 rm(list=ls())
-directory <- "./sample/datasets/tuTiempo/europe/"
+directory <- "./sample/datasets/climateKnowledge/"
 
 filesOnDirectory <- list.files(directory)
 datasets <- list()
@@ -23,4 +23,3 @@ datasets <- lapply(datasets,function(country){
 	}
 	 country
 	})
-
