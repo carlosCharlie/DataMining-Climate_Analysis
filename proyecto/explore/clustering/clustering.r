@@ -7,6 +7,9 @@ temperature<-data$temperatures;
 raining<-data$raining;
 names<-data$names;
 
+#clustering jerarquico para ver cuantos grupos tiene sentido hacer
+plot(hclust(dist(temperatureRain)))
+
 temperatureRain <- matrix(c(temperature,raining),ncol=2); #Una columna para las temperaturas y otra para las lluvias.
 result <- kmeans(temperatureRain,5)
 
