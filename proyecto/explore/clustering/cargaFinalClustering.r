@@ -9,8 +9,8 @@ loadTraining <-function(n){
   
   #Calculo las medias de temperaturas y lluvias para cada pais seleccionado
   for(country in countries){
-    temperatures <- c(temperatures,mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,country,header = TRUE, sep = ",")$Temperature....Celsius.))));
-    raining <- c(raining,mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,country,header = TRUE, sep = ",")$Rainfall....MM.))));
+    temperatures <- c(temperatures,mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,country,header = TRUE, sep = ",")$Temperature))));
+    raining <- c(raining,mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,country,header = TRUE, sep = ",")$Rain))));
   }
   
   result <- data.frame(temperatures = temperatures, raining = raining, names = countries);
