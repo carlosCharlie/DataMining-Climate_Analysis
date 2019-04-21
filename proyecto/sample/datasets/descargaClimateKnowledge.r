@@ -51,7 +51,7 @@ for(i in 1:(length(countries[,1]))){
         tmp[tmp$Year==year,] <- orderSet
       }
 
-  		write.csv(tmp, file = paste("sample/datasets/climateKnowledge/",toupper(gsub(" ","_",countries[i,1])),".csv",sep=""));
+  		write.csv(tmp, file = paste("sample/datasets/climateKnowledge/",tolower(gsub(" ","-",countries[i,1])),".csv",sep=""));
   	}
   }
 }
