@@ -1,7 +1,8 @@
 
-source("explore/clustering/cargaParaClustering.R")
+#Ejecutar hasta que salga un grafico con los grupos bien diferenciados
+source("explore/clustering/cargaFinalClustering.r")
 
-data <- loadTraining(14); #esta funcion esta en "cargaParaClustering.R"
+data <- loadTraining(30); #esta funcion esta en "cargaParaClustering.R"
 
 temperature<-data$temperatures;
 raining<-data$raining;
@@ -12,7 +13,7 @@ temperatureRain <- matrix(c(temperature,raining),ncol=2); #Una columna para las 
 #clustering jerarquico para ver cuantos grupos tiene sentido hacer
 plot(hclust(dist(temperatureRain)))
 
-result <- kmeans(temperatureRain,5)
+result <- kmeans(temperatureRain,4)
 
 #para dibujar
 plot(temperatureRain,col=result$cluster)
