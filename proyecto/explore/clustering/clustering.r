@@ -7,7 +7,7 @@ predictClimate <- function(temperature,raining){
 #Ejecutar todo el script hasta que salga un grafico con los grupos bien diferenciados
 source("explore/clustering/cargaFinalClustering.r")
 
-data <- loadTraining(40); #esta funcion esta en cargaFinalClustering.r
+data <- loadTraining(70); #esta funcion esta en cargaFinalClustering.r
 
 temperature<-data$temperatures;
 raining<-data$raining;
@@ -18,7 +18,7 @@ temperatureRain <- matrix(c(temperature,raining),ncol=2); #Una columna para las 
 #clustering jerarquico para ver cuantos grupos tiene sentido hacer
 plot(hclust(dist(temperatureRain)))
 
-result <- kmeans(temperatureRain,4)
+result <- kmeans(temperatureRain,5)
 
 #para dibujar
 plot(temperatureRain,col=result$cluster)
@@ -28,7 +28,8 @@ climateNames <- vector(mode = "character",length = 4);
 climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Panama.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Panama.csv",header = TRUE, sep = ",")$Rain))))] = "tropical";
 climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Saudi Arabia.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Saudi Arabia.csv",header = TRUE, sep = ",")$Rain))))] = "seco";
 climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Italy.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Italy.csv",header = TRUE, sep = ",")$Rain))))] = "moderado";
-climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Finland.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Finland.csv",header = TRUE, sep = ",")$Rain))))] = "continental";
+climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Canada.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Canada.csv",header = TRUE, sep = ",")$Rain))))] = "continental";
+climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Thailand.csv",header = TRUE, sep = ",")$Temperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Thailand.csv",header = TRUE, sep = ",")$Rain))))] = "tropical-seco";
 
 #Imprimo por pantalla
 for(i in 1:(length(temperature)))
