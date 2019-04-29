@@ -1,3 +1,12 @@
+#################################################################################
+# mezclarDatasets.R
+#
+# Archivo para mezclar los datasets de las distintas fuentes de datos en un
+# único dataset limpio con la máxima información y listo para procesarlo.
+#
+#################################################################################
+
+# Rutas de los archivos
 directory <- "./sample/datasets/climateKnowledge/"
 directoryAfrica <- "./sample/datasets/tuTiempo/africa/"
 directoryAntarctica <- "./sample/datasets/tuTiempo/antarctica/"
@@ -7,6 +16,7 @@ directoryNorthAmerica <- "./sample/datasets/tuTiempo/north-america/"
 directoryOceania <- "./sample/datasets/tuTiempo/oceania/"
 directorySouthAmerica <- "./sample/datasets/tuTiempo/south-america/"
 
+# Guardamos los archivos dentro de los directorios
 filesOnDirectory <- list.files(directory)
 filesOnAfrica <- list.files(directoryAfrica)
 filesOnAntarctica <- list.files(directoryAntarctica)
@@ -16,6 +26,9 @@ filesOnNorthAmerica <- list.files(directoryNorthAmerica)
 filesOnOceania <- list.files(directoryOceania)
 filesOnSouthAmerica <- list.files(directorySouthAmerica)
 
+# Recorremos los archivos del directorio principal de la página climateKnowledge. Para cada archivo, comprobamos
+# si está en algunos de los directorios de tuTiempo. En caso afirmativo los leemos y los mezclamos en uno único.
+# Finalmente se guarda en un nuevo directorio llamado datasetsFinales.
 for(nameOfFile in filesOnDirectory){
 	if(is.element(nameOfFile,filesOnAfrica)){
 		dataset1 <- read.csv(paste(directory,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)
