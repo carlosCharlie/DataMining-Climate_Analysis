@@ -9,7 +9,7 @@ predictClimate <- function(temperature,raining){
 }
 
 #Ejecutar todo el script hasta que salga un grafico con los grupos bien diferenciados
-source("explore/clustering/cargaFinalClustering.r")
+source("model/clustering/cargaFinalClustering.r")
 
 data <- loadTraining(70); #esta funcion esta en cargaFinalClustering.r
 
