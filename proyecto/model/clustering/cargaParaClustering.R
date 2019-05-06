@@ -1,10 +1,16 @@
+#################################################################################
+# cargaParaClustering.r
+#
+# 
+#
+#################################################################################
 
 loadTraining <- function(nFiles){
   
   count <- 1;
   list <- vector();
   
-  #cargo los paises por continentes (es una lista de continentes donde cada elemento es a su vez una lista con los paises de ese continente)
+  # Cargo los paises por continentes ( lista de continentes donde cada elemento es a su vez una lista con los paises de ese continente)
   continents <- lapply(list.dirs(path="sample/datasets/tuTiempo"),function(continent){list.files(path=continent,full.names = TRUE)});
   
   #Cojo un pais por continente en cada vuelta de bucle hasta llegar a nFiles paises

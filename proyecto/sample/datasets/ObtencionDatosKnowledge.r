@@ -1,5 +1,5 @@
 #################################################################################
-# descargaClimateKnowledge.R
+# ObtencionDatosKnowledge.R
 #
 # 
 #

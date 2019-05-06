@@ -1,3 +1,9 @@
+#################################################################################
+# cargaFinalClustering.r
+#
+# 
+#
+#################################################################################
 
 loadTraining <-function(n){
   #Selecciono de forma aleatoria los paises de prueba
