@@ -25,18 +25,18 @@ eliminarNAs <- function(data){
 
 
 # Función que cambia los nombres de las columnas a unos preestablecidos.
-cambiarNombresVariables <- function(data, names=c("Year","Country","Month","Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+cambiarNombresVariables <- function(data, names=c("Year","Country","JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")){
 	colnames(data) <- names
 	return (data)
 }
 
 # Funcion para calcular la temperatura media anual en caso de que no la proporcione el dataset y sea un NA
 calcularMediasAnuales <- function(data){
-	for(i in unique(data$Year)){
-		aux <- data[i==data$Year,]
-		if(any(is.na(aux$ATemperature))){
-			media <- mean(aux$Temperature)
-			data[i==data$Year,"ATemperature"] <- media
+	for(i in 1:nrow(data)){
+		print(data[i,"ATemperature"])
+		if(is.na(data[i,"ATemperature"])){
+			media <- mean(unlist(data[i,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature")],use.names=FALSE))
+			data[i,"ATemperature"] <- media
 		}
 	}
 	return (data)
@@ -44,11 +44,10 @@ calcularMediasAnuales <- function(data){
 
 # Función para calcular la temperatura máxima anual en caso de que no la proporcione el dataset y sea un NA
 calcularMaxAnuales <- function(data){
-	for(i in unique(data$Year)){
-		aux <- data[i==data$Year,]
-		if(any(is.na(aux$AMaxTemperature))){
-			max <- max(aux$Temperature)
-			data[i==data$Year,"AMaxTemperature"] <- max
+	for(i in 1:nrow(data)){
+		if(is.na(data[i,"AMaxTemperature"])){
+			max <- max(data[i,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature")])
+			data[i,"AMaxTemperature"] <- max
 		}
 	}
 	return (data)
@@ -56,11 +55,10 @@ calcularMaxAnuales <- function(data){
 
 # Función para calcular la temperatura mínima anual en caso de que no la proporcione el dataset y sea un NA
 calcularMinAnuales <- function(data){
-	for(i in unique(data$Year)){
-		aux <- data[i==data$Year,]
-		if(any(is.na(aux$AMinTemperature))){
-			min <- min(aux$Temperature)
-			data[i==data$Year,"AMinTemperature"] <- min
+	for(i in 1:nrow(data)){
+		if(is.na(data[i,"AMinTemperature"])){
+			min <-  min(data[i,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature")])
+			data[i,"AMinTemperature"] <- min
 		}
 	}
 	return (data)
@@ -68,11 +66,10 @@ calcularMinAnuales <- function(data){
 
 # Función para calcular las precipitaciones anuales en caso de que no la proporcione el dataset y sea un NA
 calcularPrecipitacionesAnuales <- function(data){
-	for(i in unique(data$Year)){
-		aux <- data[i==data$Year,]
-		if(any(is.na(aux$TotalPrecipitation))){
-			acumulatedPrecipitation <- sum(aux$Rain)
-			data[i==data$Year,"TotalPrecipitation"] <- acumulatedPrecipitation
+	for(i in 1:nrow(data)){
+		if(is.na(data[i,"TotalPrecipitation"])){
+			acumulatedPrecipitation <- sum(data[i,c("JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain")])
+			data[i,"TotalPrecipitation"] <- acumulatedPrecipitation
 		}
 	}
 	return (data)
@@ -81,7 +78,7 @@ calcularPrecipitacionesAnuales <- function(data){
 # Normalizamos los datos para que no alteren los resultados de las gráficas, ya que los números de las precipitaciones
 # son mucho mayores que los de temperatura. Cogemos el mayor valor registrado y lo asignamos al limite superior de la
 # normalización, y de forma análoga con el menor valor registrado.
-normalizarMinMax <- function(data, varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+normalizarMinMax <- function(data, varToNormalize=c("FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
 	if(!require("scales")){
 		install.packages("scales")
 		require("scales")
@@ -96,7 +93,7 @@ normalizarMinMax <- function(data, varToNormalize=c("Temperature","Rain","ATempe
 	return (data)
 }
 
-normalizarANormal <- function(data, varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+normalizarANormal <- function(data, varToNormalize=c("FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
 	for(i in varToNormalize){
 		totalSum <- sum(unlist(lapply(data,function(x){sum(x[,i],na.rm=TRUE)}), use.names=FALSE))
 	 	howMany <- sum(unlist(lapply(data,function(x){sum(!is.na(x[,i]))}), use.names=FALSE))
