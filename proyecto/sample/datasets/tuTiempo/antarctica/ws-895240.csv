@@ -1,4 +1,4 @@
-"Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays"
-1988,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-1990,-18.3,-14.9,-22.3,NA,44.9,0,56,0,1,0,0
-1991,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation"
+1988,NA,NA,NA,NA
+1990,-18.3,-14.9,-22.3,NA
+1991,NA,NA,NA,NA

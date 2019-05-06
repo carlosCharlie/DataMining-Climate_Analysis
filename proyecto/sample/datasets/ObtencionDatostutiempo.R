@@ -13,14 +13,16 @@ webMinable <- "https://en.tutiempo.net/climate/"
 sourceWeb <- "https://en.tutiempo.net"
 
 # Paquetes necesarios para la ejecución.
-if (!require("RHTMLForms")) install_github("omegahat/RHTMLForms")
+if(!require("devtools")) install.packages("devtools")
+require("devtools")
+if (!require("RHTMLForms")) devtools::install_github("omegahat/RHTMLForms")
 require("RHTMLForms")
-if (!require("RCurl")) install.packages("RCurl")
-require(RCurl)
-if (!require(XML)) install.packages("xml")
-require(XML)
-if (!require(httr)) install.packages("httr")
-require(httr)
+if (!require("RCurl")) install.packages("RCurl", dependencies=TRUE)
+require("RCurl")
+if (!require("XML")) install.packages("XML", dependencies=TRUE)
+require("XML")
+if (!require("httr")) install.packages("httr", dependencies=TRUE)
+require("httr")
 
 # La url existe
 if(url.exists(webMinable)) { 
@@ -101,16 +103,16 @@ if(url.exists(webMinable)) {
 
                   		if(is.data.frame(table) && nrow(table)>0) {
                           countryDataFrame <- rbind(countryDataFrame ,table)
-                  		}		
+                      }		
                   }
               }
           }
 
           if(nrow(countryDataFrame)>0) {
-
- 		          names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")
+			        countryDataFrame<-countryDataFrame[1:5]
+ 		          names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")
  		          colnames(countryDataFrame) <-names 
-  
+              
       			  for(name in names) {
       	  			  countryDataFrame[name] <- apply(countryDataFrame[name],2, as.character)
                 	countryDataFrame[name] <- apply(countryDataFrame[name],2, as.numeric)
@@ -122,11 +124,10 @@ if(url.exists(webMinable)) {
             	 		countryDataFrame <- subset(countryDataFrame, Year!=year)
             	  	countryDataFrame <- rbind(countryDataFrame, yearSet)
         	    } 
-
         			title = paste(countryName,".csv",sep="")
         			title = paste(continentName,title,sep="/")	   		
-        			title = paste("./tuTiempo/",title, sep="")
-        			write.csv(countryDataFrame, file=title, row.names=FALSE)
+        			title = paste("./sample/datasets/tuTiempo/",title, sep="")
+				      write.csv(countryDataFrame, file=title, row.names=FALSE)
               print(countryName)
 	        }    
         }
