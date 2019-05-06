@@ -2,7 +2,7 @@
 source("sample/datasets/cargarDatasets.R");
 source("modify/limpiarDataset.R")
 
-loadTrainingNorm <- function(n){
+loadTraining <- function(n){
   
   #Selecciono de forma aleatoria los paises de prueba
   filled <- calcularMediasAnuales(calcularMaxAnuales(calcularMinAnuales(datasets)));
@@ -19,6 +19,9 @@ loadTrainingNorm <- function(n){
   }
   
   result <- data.frame(temperatures = temperatures, raining = raining, names = names);
-  
+  rm(dataset)
+  rm(datasets)
   gc(full="TRUE")
+  
+  result
 }

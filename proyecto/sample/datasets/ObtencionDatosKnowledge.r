@@ -1,7 +1,8 @@
 #################################################################################
-# descargaClimateKnowledge.R
+# ObtencionDatosKnowledge.R
 #
-# 
+# Archivo que realiza la coexión con la página web ClimateKnowledge y obtiene los
+# datasets.
 #
 #################################################################################
 
@@ -30,7 +31,6 @@ for(i in 1:(length(countries[,1]))){
 
   if(nchar(tmp)>nchar("Temperature - (Celsius), Year, Month, Country, ISO3\n") && !grepl("<html>",tmp)){
     
-  	#write(tmp, file = paste("sample/datasets/climateKnowledge/",toupper(gsub(" ","_",countries[i,1])),"_temperature.csv", sep=""));
   	df1 <- toDataFrame(tmp)
 
   	url <- paste("https://climateknowledgeportal.worldbank.org/api/data/get-download-data/historical/pr/1901-2016/",toupper(substr(countries[i,1],1,3)),"/",countries[i,1],sep="");

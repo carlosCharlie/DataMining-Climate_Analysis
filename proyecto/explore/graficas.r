@@ -1,3 +1,10 @@
+#################################################################################
+# graficas.r
+#
+# Archivo con las funciones para generar las gráficas.
+#
+#################################################################################
+
 getYears <- function(data, years){
 	returnData <- rep(FALSE,nrow(data))
 	for(i in years){
