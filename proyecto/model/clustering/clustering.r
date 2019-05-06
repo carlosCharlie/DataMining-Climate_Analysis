@@ -11,18 +11,22 @@
 source("model/clustering/cargaNormalizada.r")
 
 # Esta función esta en cargaFinalClustering.r
-data <- loadTraining(70);
+data <- loadTraining(70)
 
 temperature<-data$temperatures;
 raining<-data$raining;
 names<-data$names;
+
+rm(data)
+rm(dataset)
+rm(datasets)
 
 temperatureRain <- matrix(c(temperature,raining),ncol=2); #Una columna para las temperaturas y otra para las lluvias.
 
 # Clustering jerárquico para ver cuantos grupos tiene sentido hacer
 plot(hclust(dist(temperatureRain)))
 
-result <- kmeans(temperatureRain,5)
+result <- kmeans(temperatureRain,4)
 
 # Para dibujar
 plot(temperatureRain,col=result$cluster)
@@ -38,12 +42,20 @@ predictClimate <- function(temperature,raining){
 }
 
 # Elegimos países que tienen un tipo de clima claramente diferenciado y los utilizamos para agrupar los demás.
-climateNames <- vector(mode = "character",length = 4);
-climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Panama.csv",header = TRUE, sep = ",")$ATemperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Panama.csv",header = TRUE, sep = ",")$Rain))))] = "tropical";
-climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Saudi Arabia.csv",header = TRUE, sep = ",")$ATemperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Saudi Arabia.csv",header = TRUE, sep = ",")$Rain))))] = "seco";
-climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Italy.csv",header = TRUE, sep = ",")$ATemperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Italy.csv",header = TRUE, sep = ",")$Rain))))] = "moderado";
-climateNames[predictClimate(mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Canada.csv",header = TRUE, sep = ",")$ATemperature))),mean(as.double(na.omit(read.csv2(stringsAsFactors = FALSE,"sample/datasets/datasetsFinales/Canada.csv",header = TRUE, sep = ",")$Rain))))] = "continental";
 
+i<-1;
+clusters<-0;
+climateNames <- vector(mode = "character",length = 4);
+
+while(i<length(names) && length(climateNames[unlist(lapply(climateNames,function(x){is.na(x)||x==""}))])>0){
+  
+  if(names[[i]]=="Panama")climateNames[predictClimate(temperature[i],raining[i])] = "tropical";
+  if(names[[i]]=="Saudi Arabia")climateNames[predictClimate(temperature[i],raining[i])] = "seco";
+  if(names[[i]]=="Italy")climateNames[predictClimate(temperature[i],raining[i])] = "moderado";
+  if(names[[i]]=="Canada")climateNames[predictClimate(temperature[i],raining[i])] = "continental";
+  
+  i<-i+1;
+}
 # Imprimimos por pantalla
 for(i in 1:(length(temperature)))
-    print(paste("el clima de",gsub("-"," ",gsub("^([a-z,A-Z,-]*/)*|.csv","",data$names[i])),"es",result$cluster[i]))
+    print(paste("el clima de",names[[i]],"es",climateNames[result$cluster[i]]))

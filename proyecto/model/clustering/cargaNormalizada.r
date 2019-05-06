@@ -19,8 +19,7 @@ loadTraining <- function(n){
   }
   
   result <- data.frame(temperatures = temperatures, raining = raining, names = names);
-  rm(dataset)
-  rm(datasets)
+
   gc(full="TRUE")
   
   result
