@@ -1,7 +1,8 @@
 #################################################################################
 # ObtencionDatosTuTiempo.R
 #
-# 
+# Archivo que realiza la coexión con la página web tutiempo.net y obtiene los
+# datasets.
 #
 #################################################################################
 

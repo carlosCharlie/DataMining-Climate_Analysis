@@ -78,6 +78,9 @@ calcularPrecipitacionesAnuales <- function(data){
 	return (data)
 }
 
+# Normalizamos los datos para que no alteren los resultados de las gráficas, ya que los números de las precipitaciones
+# son mucho mayores que los de temperatura. Cogemos el mayor valor registrado y lo asignamos al limite superior de la
+# normalización, y de forma análoga con el menor valor registrado.
 normalizarMinMax <- function(data, varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
 	if(!require("scales")){
 		install.packages("scales")
@@ -93,7 +96,7 @@ normalizarMinMax <- function(data, varToNormalize=c("Temperature","Rain","ATempe
 	return (data)
 }
 
-normalizarANormal <- function(data, , varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+normalizarANormal <- function(data, varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
 	for(i in varToNormalize){
 		totalSum <- sum(unlist(lapply(data,function(x){sum(x[,i],na.rm=TRUE)}), use.names=FALSE))
 	 	howMany <- sum(unlist(lapply(data,function(x){sum(!is.na(x[,i]))}), use.names=FALSE))
