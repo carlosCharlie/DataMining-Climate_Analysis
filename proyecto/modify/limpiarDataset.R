@@ -78,6 +78,9 @@ calcularPrecipitacionesAnuales <- function(data){
 	return (data)
 }
 
+# Normalizamos los datos para que no alteren los resultados de las gráficas, ya que los números de las precipitaciones
+# son mucho mayores que los de temperatura. Cogemos el mayor valor registrado y lo asignamos al limite superior de la
+# normalización, y de forma análoga con el menor valor registrado.
 normalizarMinMax <- function(data, varToNormalize=c("Temperature","Rain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
 	if(!require("scales")){
 		install.packages("scales")
