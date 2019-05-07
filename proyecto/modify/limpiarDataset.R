@@ -78,31 +78,43 @@ calcularPrecipitacionesAnuales <- function(data){
 # Normalizamos los datos para que no alteren los resultados de las gráficas, ya que los números de las precipitaciones
 # son mucho mayores que los de temperatura. Cogemos el mayor valor registrado y lo asignamos al limite superior de la
 # normalización, y de forma análoga con el menor valor registrado.
-normalizarMinMax <- function(data, varToNormalize=c("FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+normalizarMinMax <- function(data, varToNormalize=c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")){
 	if(!require("scales")){
 		install.packages("scales")
 		require("scales")
 	}
+	minimos <- vector()
+	maximos <- vector()
 	for(i in varToNormalize){
 		min <- min(unlist(lapply(data,function(x){min(x[,i],na.rm=TRUE)}), use.names=FALSE))
 	 	max <- max(unlist(lapply(data,function(x){max(x[,i],na.rm=TRUE)}), use.names=FALSE))
 		for(x in 1:length(data)){
 			data[[x]][,i] <- rescale(data[[x]][,i], from=c(min,max))
 		}
+		minimos <- cbind(minimos,min)
+		maximos <- cbind(maximos,max)
 	}
-	return (data)
+	
+	return (list(data,minimos,maximos)) 
 }
 
-normalizarANormal <- function(data, varToNormalize=c("FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")){
+normalizarANormal <- function(data, varToNormalize=c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")){
+	medias <- vector()
+	desviaciones <- vector()
+	if(!is.list(data)){
+		data <- list(data)
+	}
 	for(i in varToNormalize){
 		totalSum <- sum(unlist(lapply(data,function(x){sum(x[,i],na.rm=TRUE)}), use.names=FALSE))
 	 	howMany <- sum(unlist(lapply(data,function(x){sum(!is.na(x[,i]))}), use.names=FALSE))
 		mean <- totalSum/howMany
-		squareSum <- sum(unlist(lapply(data,function(x){(mean-x[,i])^2})))
+		squareSum <- sum(unlist(lapply(data,function(x){(mean-x[,i])^2})),na.rm=TRUE)
 		std <- sqrt(squareSum/howMany)
 		for(x in 1:length(data)){
 			data[[x]][,i] <- (data[[x]][,i]-mean)/std
 		}
+		medias <- cbind(medias,mean)
+		desviaciones <- cbind(desviaciones,std)
 	}
-	return (data)
+	return (list(data,medias,desviaciones))
 }
