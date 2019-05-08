@@ -4,29 +4,39 @@
 # Archivo con las funciones para generar las gráficas.
 #
 #################################################################################
+months <- c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
 
 getYears <- function(data, years){
 	returnData <- rep(FALSE,nrow(data))
 	for(i in years){
 		returnData <- returnData | data$Year==i
 	}
-	returnData
+	return (returnData)
 }
 
 plotVsMonth <- function(data,var1,years){
 	selectRows <- getYears(data,years)
-	months <- data$Month[selectRows]
-	var <- data[selectRows,var1]
-	barplot(var,names.arg=months)
+	variable <- data[selectRows,grepl(paste("^[A-Z,a-z]{3}",var1,sep=""),colnames(data))]
+	variable <- unlist(variable,use.names=FALSE)
+	barplot(variable,names.arg=months, ylim=c(-15,30))
+}
+
+plotVsMonthWithMean <- function(data,var1,years){
+	selectRows <- getYears(data,years)
+	variable <- data[selectRows,grepl(paste("^[A-Z,a-z]{3}",var1,sep=""),colnames(data))]
+	variable <- unlist(variable,use.names=FALSE)
+	barplot(variable,names.arg=months, ylim=c(-15,30))
+	lines(rep(data[selectRows,grepl(paste("^A",var1,sep=""),colnames(data))],12), col="red")
 }
 
 plot2VsMonth <- function(data,var1,var2,years){
 	selectRows <- getYears(data,years)
-	months <- data$Month[selectRows]
-	var <- data[selectRows,var1]
-	varp <- data[selectRows,var2]
-	var <- rbind(var,varp)
-	barplot(var,names.arg=months, beside=TRUE)
+	variable <- data[selectRows,grepl(paste("^[A-Z,a-z]{3}",var1,sep=""),colnames(data))]
+	varp <- data[selectRows,grepl(paste("^[A-Z,a-z]{3}",var2,sep=""),colnames(data))]
+	variable <- unlist(variable,use.names=FALSE)
+	varp <- unlist(varp,use.names=FALSE)
+	variable <- rbind(variable,varp)
+	barplot(variable,names.arg=months, beside=TRUE, ylim=c(-15,30))
 }
 
 plotThroughYears <- function(data,var1,years){
