@@ -36,7 +36,8 @@ plot2VsMonth <- function(data,var1,var2,years){
 	variable <- unlist(variable,use.names=FALSE)
 	varp <- unlist(varp,use.names=FALSE)
 	variable <- rbind(variable,varp)
-	barplot(variable,names.arg=months, beside=TRUE, ylim=c(-15,30))
+	barplot(variable,names.arg=months, beside=TRUE, col=c("grey30","grey80"))
+	legend("topright", legend=c(var1,var2),fill=c("grey30","grey80"))
 }
 
 plotThroughYears <- function(data,var1,years){
