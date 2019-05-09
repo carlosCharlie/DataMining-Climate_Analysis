@@ -110,8 +110,9 @@ if(url.exists(webMinable)) {
           }
 
           if(nrow(countryDataFrame)>0) {
-			        countryDataFrame<-countryDataFrame[1:5]
- 		          names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")
+			      #countryDataFrame<-countryDataFrame[1:5]
+ 		          #names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")
+ 		          names <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation","AWindSpeed","RainDays","SnowDays","StormDays","FoggyDays","TornadoDays","HailDays")
  		          colnames(countryDataFrame) <-names 
               
       			  for(name in names) {

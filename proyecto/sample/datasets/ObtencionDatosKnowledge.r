@@ -48,8 +48,8 @@ for(i in 1:(length(countries[,1]))){
 		colnames(tmp) <- c("Year","Country","Month","ISO3","Temperature","Rain")
 		
 		
-      matrizTemperatura <- vector()
-      matrizLluvia <- vector()
+      #matrizTemperatura <- vector()
+      #matrizLluvia <- vector()
       for(year in unique(tmp$Year)){
         littleSet <- tmp[tmp$Year==year,]
         orderSet <- littleSet[5,]
@@ -65,15 +65,15 @@ for(i in 1:(length(countries[,1]))){
         orderSet <- rbind(orderSet, littleSet[10,])
         orderSet <- rbind(orderSet, littleSet[3,])
         tmp[tmp$Year==year,] <- orderSet
-	arrayTemperature <- as.numeric(as.character(orderSet$Temperature))
-	arrayRain <- as.numeric(as.character(orderSet$Rain)) 
-	matrizTemperatura <- rbind(matrizTemperatura,arrayTemperature)
-	matrizLluvia <- rbind(matrizLluvia,arrayRain)
+	#arrayTemperature <- as.numeric(as.character(orderSet$Temperature))
+	#arrayRain <- as.numeric(as.character(orderSet$Rain)) 
+	#matrizTemperatura <- rbind(matrizTemperatura,arrayTemperature)
+	#matrizLluvia <- rbind(matrizLluvia,arrayRain)
       }
-	tmp <- unique(tmp[1:2])
-	tmp <- cbind(tmp,matrizTemperatura)
-	tmp <- cbind(tmp,matrizLluvia)
-	colnames(tmp) <- c("Year","Country","JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain")
+	#tmp <- unique(tmp[1:2])
+	#tmp <- cbind(tmp,matrizTemperatura)
+	#tmp <- cbind(tmp,matrizLluvia)
+	#colnames(tmp) <- c("Year","Country","JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain")
   		write.csv(tmp, file = paste("sample/datasets/climateKnowledge/",tolower(gsub(" ","-",countries[i,1])),".csv",sep=""));
   	}
   }
