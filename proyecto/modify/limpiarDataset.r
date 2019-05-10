@@ -55,7 +55,6 @@ cambiarNombresVariables <- function(data, names=c("Year","Country","JanTemperatu
 # Funcion para calcular la temperatura media anual en caso de que no la proporcione el dataset y sea un NA
 calcularMediasAnuales <- function(data){
 	for(i in 1:nrow(data)){
-		print(data[i,"ATemperature"])
 		if(is.na(data[i,"ATemperature"])){
 			media <- mean(unlist(data[i,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature")],use.names=FALSE))
 			data[i,"ATemperature"] <- media
