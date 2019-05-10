@@ -23,6 +23,28 @@ eliminarNAs <- function(data){
 	return (data)
 }
 
+limpiarClimateKnowledge <- function(data){
+	matrizTemperatura <- vector()
+    matrizLluvia <- vector()
+      for(year in unique(data$Year)){
+        littleSet <- data[data$Year==year,]
+        arrayTemperature <- as.numeric(as.character(littleSet$Temperature))
+		arrayRain <- as.numeric(as.character(littleSet$Rain)) 
+		matrizTemperatura <- rbind(matrizTemperatura,arrayTemperature)
+		matrizLluvia <- rbind(matrizLluvia,arrayRain)
+      }
+	data <- unique(data[1:2])
+	data <- cbind(data,matrizTemperatura)
+	data <- cbind(data,matrizLluvia)
+	colnames(data) <- c("Year","Country","JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain")
+	return (data)
+}
+
+limpiarTuTiempo <- function(data){
+	data<-data[1:5]
+ 	colnames(data) <- c("Year","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")
+ 	return (data)
+}
 
 # Función que cambia los nombres de las columnas a unos preestablecidos.
 cambiarNombresVariables <- function(data, names=c("Year","Country","JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")){
@@ -83,6 +105,9 @@ normalizarMinMax <- function(data, varToNormalize=c("JanTemperature","FebTempera
 		install.packages("scales")
 		require("scales")
 	}
+	if(!is.list(data) || is.data.frame(data)){
+		data <- list(data)
+	}
 	minimos <- vector()
 	maximos <- vector()
 	for(i in varToNormalize){
@@ -101,7 +126,7 @@ normalizarMinMax <- function(data, varToNormalize=c("JanTemperature","FebTempera
 normalizarANormal <- function(data, varToNormalize=c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature","AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain","AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain","ATemperature","AMaxTemperature","AMinTemperature","TotalPrecipitation")){
 	medias <- vector()
 	desviaciones <- vector()
-	if(!is.list(data)){
+	if(!is.list(data) || is.data.frame(data)){
 		data <- list(data)
 	}
 	for(i in varToNormalize){

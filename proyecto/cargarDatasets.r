@@ -8,7 +8,7 @@
 rm(list=ls())
 
 # Directorio con los datasets finales limpiados y mezclados.
-directory <- "./sample/datasets/datasetsFinales/"
+directory <- "./modify/datasets/datasetsFinales/"
 
 # Almacenamos los archivos del directorio.
 filesOnDirectory <- list.files(directory)
@@ -27,11 +27,6 @@ for(nameOfFile in filesOnDirectory){
 	# Leemos/cargamos el dataset.
 	dataset <- read.csv(fileToRead, header = TRUE, sep=",", dec=".",stringsAsFactor=FALSE)
 
-	# Eliminamos las columnas que no vamos a utilizar.
-	dataset$X.1 <- NULL
-	dataset$X <- NULL
-	dataset$ISO3 <- NULL
-
 	# Añadimos a la lista el dataset.
 	datasets <- c(datasets,list(name=dataset))
 
@@ -39,7 +34,7 @@ for(nameOfFile in filesOnDirectory){
 	names(datasets)[length(datasets)] <- nameOfCountry
 }
 
-# Si una fila solamente tiene un dato, eliminamos la fila porque no nos va a aportar información.
+# Si una fila solamente tiene un dato, eliminamos la fila porque no nos va a aportar información, debido a que ese dato será unicamente el año.
 datasets <- lapply(datasets,function(country){
 	i<-1
 	while (i <= nrow(country)){
