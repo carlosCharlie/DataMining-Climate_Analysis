@@ -11,7 +11,7 @@ rm(list=ls())
 source("model/clustering/cargaNormalizada.r")
 
 # Esta función esta en cargaFinalClustering.r
-data <- loadTraining(70)
+data <- loadTraining(78)
 
 temperature<-data$temperatures;
 raining<-data$raining;
@@ -77,3 +77,33 @@ for(i in 1:(length(temperature))){
 
 clustered <- data.frame(names=names,climate=climates)
 View(clustered)
+
+
+#Analizo Francia ano por ano por ejemplo
+source("cargarDatasets.r")
+country <- normalizarANormal(na.omit(datasets[["france"]]))[[1]][[1]];
+
+climates <- vector();
+p <- vector();
+rains <-vector();
+temperatures <-vector();
+
+for(year in country$Year){
+  
+  rainTmp <- vector();
+  for(month in (grep("[A-Za-z]*Rain",colnames(country), perl=TRUE, value=TRUE)))
+    rainTmp <- c(rainTmp,subset(country,Year==year)[[month]]);
+  
+  raining <- mean(rainTmp);
+  temperature <- subset(country,Year==year)$ATemperature;
+  
+  climates <- c(climates,climateNames[predictClimate(temperature,raining)]);
+  rains <- c(rains,raining);
+  temperatures<-c(temperatures,temperature);
+}
+
+plot(matrix(c(country$Year,temperatures),ncol = 2),type="l",col="red",lwd=3);
+lines(matrix(c(country$Year,rains),ncol = 2),type="l",col="blue",lwd=3);
+
+countryResult <- data.frame(year=country$Year,climates=climates)
+View(countryResult)

@@ -5,8 +5,6 @@
 #
 #################################################################################
 
-rm(list=ls())
-
 # Directorio con los datasets finales limpiados y mezclados.
 directory <- "./modify/datasets/datasetsFinales/"
 
