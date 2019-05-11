@@ -1,6 +1,6 @@
 
-source("sample/datasets/cargarDatasets.R");
-source("modify/limpiarDataset.R")
+source("cargarDatasets.r");
+source("modify/limpiarDataset.r")
 
 loadTraining <- function(n){
   
