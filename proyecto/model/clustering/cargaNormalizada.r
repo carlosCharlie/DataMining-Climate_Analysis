@@ -1,12 +1,12 @@
 
-source("sample/datasets/cargarDatasets.R");
-source("modify/limpiarDataset.R")
+source("cargarDatasets.r");
+source("modify/limpiarDataset.r")
 
 loadTraining <- function(n){
   
-  #Selecciono de forma aleatoria los paises de prueba
-  filled <- calcularMediasAnuales(calcularMaxAnuales(calcularMinAnuales(datasets)));
-  normalized <- normalizarANormal(filled);
+  filled <- lapply(datasets,function(x){calcularMediasAnuales(calcularMaxAnuales(calcularMinAnuales(x)))});
+  resultNorm <- normalizarANormal(filled);
+  normalized <- resultNorm[[1]];
   
   temperatures = vector();
   raining = vector();
@@ -14,8 +14,14 @@ loadTraining <- function(n){
   
   for(country in normalized){
       temperatures <- c(temperatures,mean(country$ATemperature));
-      raining <- c(raining,mean(country$Rain));
-      names <-(c(names,country$Country[1]))
+      
+      #Uno todas las columnas de lluvias en un solo vector para tener todas las lluvias del año
+      rainTmp <- vector();
+      for(month in (country[grep("[A-Za-z]*Rain",colnames(country), perl=TRUE, value=TRUE)]))
+        rainTmp <- c(rainTmp,month);
+      
+      raining <- c(raining,mean(rainTmp));
+      names <-(c(names,country$Country[1]));
   }
   
   result <- data.frame(temperatures = temperatures, raining = raining, names = names);

@@ -6,12 +6,12 @@
 #
 #################################################################################
 
-
+rm(list=ls())
 # Ejecutar todo el script hasta que salga un grafico con los grupos bien diferenciados
 source("model/clustering/cargaNormalizada.r")
 
 # Esta función esta en cargaFinalClustering.r
-data <- loadTraining(70)
+data <- loadTraining(100)
 
 temperature<-data$temperatures;
 raining<-data$raining;
@@ -56,6 +56,12 @@ while(i<length(names) && length(climateNames[unlist(lapply(climateNames,function
   
   i<-i+1;
 }
-# Imprimimos por pantalla
-for(i in 1:(length(temperature)))
-    print(paste("el clima de",names[[i]],"es",climateNames[result$cluster[i]]))
+
+#formateo para que sea facil de usar luego
+climates <- vector();
+for(i in 1:(length(temperature))){
+    climates<-c(climates,(climateNames[result$cluster[i]]));
+}
+
+clustered <- data.frame(names=names,climate=climates)
+View(clustered)
