@@ -11,7 +11,7 @@ rm(list=ls())
 source("model/clustering/cargaNormalizada.r")
 
 # Esta función esta en cargaFinalClustering.r
-data <- loadTraining(70)
+data <- loadTraining(100)
 
 temperature<-data$temperatures;
 raining<-data$raining;
