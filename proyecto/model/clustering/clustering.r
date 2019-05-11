@@ -11,7 +11,7 @@ rm(list=ls())
 source("model/clustering/cargaNormalizada.r")
 
 # Esta función esta en cargaFinalClustering.r
-data <- loadTraining(100)
+data <- loadTraining(70)
 
 temperature<-data$temperatures;
 raining<-data$raining;
@@ -26,7 +26,19 @@ temperatureRain <- matrix(c(temperature,raining),ncol=2); #Una columna para las 
 # Clustering jerárquico para ver cuantos grupos tiene sentido hacer
 plot(hclust(dist(temperatureRain)))
 
-result <- kmeans(temperatureRain,4)
+index <- match("Panama",names);
+centers<-matrix(c(temperature[[index]],raining[[index]]),ncol=2);
+
+index <- match("Saudi Arabia",names);
+centers<-rbind(centers,c(temperature[[index]],raining[[index]]));
+
+index <- match("Italy",names);
+centers<-rbind(centers,c(temperature[[index]],raining[[index]]));
+
+index <- match("Canada",names);
+centers<-rbind(centers,c(temperature[[index]],raining[[index]]));
+
+result <- kmeans(temperatureRain,centers)
 
 # Para dibujar
 plot(temperatureRain,col=result$cluster)
