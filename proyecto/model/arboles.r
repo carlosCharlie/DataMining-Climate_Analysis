@@ -11,6 +11,8 @@ gc()
 
 dataset <- read.csv("modify/datasets/datasetFinal/climateMarked.csv",header=TRUE)
 
+dataset$Climate <- as.factor(dataset$Climate)
+
 data <- dataset[,(colnames(dataset)!="Country" & colnames(dataset)!="Year")]
 
 aplicarDecisionTree <- function(data, formula=Climate ~ JanTemperature+FebTemperature+MarTemperature+AprTemperature+MayTemperature+JunTemperature+JulTemperature+AugTemperature+SepTemperature+OctTemperature+NovTemperature+DecTemperature+JanRain+FebRain+MarRain+AprRain+MayRain+JunRain+JulRain+AugRain+SepRain+OctRain+NovRain+DecRain+ATemperature+AMaxTemperature+AMinTemperature+TotalPrecipitation){
@@ -28,6 +30,9 @@ aplicarDecisionTree <- function(data, formula=Climate ~ JanTemperature+FebTemper
 
 	climate_pred <- predict(climate_ctree, newdata=testData)
 	print(table(climate_pred,testData$Climate))
+	print(sum(climate_pred==testData$Climate)/nrow(testData))
+	evaluar(testData$Climate,climate_pred)
+	return (climate_ctree)
 }
 
 aplicarRandomForest <- function(data, numArboles=10, formula=Climate ~ JanTemperature+FebTemperature+MarTemperature+AprTemperature+MayTemperature+JunTemperature+JulTemperature+AugTemperature+SepTemperature+OctTemperature+NovTemperature+DecTemperature+JanRain+FebRain+MarRain+AprRain+MayRain+JunRain+JulRain+AugRain+SepRain+OctRain+NovRain+DecRain+ATemperature+AMaxTemperature+AMinTemperature+TotalPrecipitation){
@@ -45,4 +50,27 @@ aplicarRandomForest <- function(data, numArboles=10, formula=Climate ~ JanTemper
 
 	climate_pred <- predict(climate_rf, newdata=testData)
 	print(table(climate_pred,testData$Climate))
+	print(sum(climate_pred==testData$Climate)/nrow(testData))
+	evaluar(testData$Climate,climate_pred)
+	return (climate_rf)
+}
+
+evaluar <- function(valores, pred){
+	precision <- sapply(levels(valores),function(x){
+			truePositive <- sum((valores==x) & (pred==x))
+			falsePositive <- sum(!(valores==x) & (pred==x))
+			return (truePositive/(truePositive+falsePositive))
+		})
+	recall <- sapply(levels(valores),function(x){
+			truePositive <- sum((valores==x) & (pred==x))
+			falseNegative <- sum((valores==x) & !(pred==x))
+			return (truePositive/(truePositive+falseNegative))
+		})
+	f1 <- (2*precision*recall)/(precision+recall)
+	print("Precision:")
+	print(precision)
+	print("Recall: ")
+	print(recall)
+	print("F1: ")
+	print(f1)
 }
