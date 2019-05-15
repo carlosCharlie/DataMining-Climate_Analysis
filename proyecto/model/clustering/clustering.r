@@ -81,12 +81,13 @@ View(clustered)
 
 #Analizo Francia ano por ano por ejemplo
 source("cargarDatasets.r")
-country <- normalizarANormal(na.omit(datasets[["france"]]))[[1]][[1]];
+country <- normalizarANormal(na.omit(datasets))[[1]][["france"]]
 
 climates <- vector();
 p <- vector();
 rains <-vector();
 temperatures <-vector();
+distances <-vector();
 
 for(year in country$Year){
   
@@ -95,9 +96,17 @@ for(year in country$Year){
     rainTmp <- c(rainTmp,subset(country,Year==year)[[month]]);
   
   raining <- mean(rainTmp);
-  temperature <- subset(country,Year==year)$ATemperature;
+  
+  temperatureTmp <- vector();
+  for(month in (grep("[A-Za-z]*Temperature",colnames(country), perl=TRUE, value=TRUE)[1:12]))
+    temperatureTmp <- c(temperatureTmp,subset(country,Year==year)[[month]]);
+  
+  temperature <- mean(temperatureTmp);
   
   climates <- c(climates,climateNames[predictClimate(temperature,raining)]);
+  
+  #Mido la distancia de Francia al clima seco.
+  distances <-c(distances,dist(rbind(c(temperature,raining),result$centers[which(climateNames=="seco"),]),method="euclidean")[[1]]);
   rains <- c(rains,raining);
   temperatures<-c(temperatures,temperature);
 }
@@ -105,5 +114,8 @@ for(year in country$Year){
 plot(matrix(c(country$Year,temperatures),ncol = 2),type="l",col="red",lwd=3);
 lines(matrix(c(country$Year,rains),ncol = 2),type="l",col="blue",lwd=3);
 
-countryResult <- data.frame(year=country$Year,climates=climates)
+#dibujo la distancia al clima seco durante los anos
+plot(matrix(c(country$Year,distances),ncol = 2),type="l",col="orange",lwd=3);
+
+countryResult <- data.frame(year=country$Year,climates=climates,distanciaSeco=distances)
 View(countryResult)
