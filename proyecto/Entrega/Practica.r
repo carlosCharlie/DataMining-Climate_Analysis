@@ -7,6 +7,8 @@ rm(list=ls())
 #Explore
 #En la fase de explore se analizan los datos obtenidos previamente
 source("graficas.r")
+source("cargarDatasets.r")
+data <- cargar("datasets/climateKnowledge/")
 print("Explore Finalizado")
 rm(list=ls())
 #Modify
@@ -14,7 +16,8 @@ rm(list=ls())
 source("limpiarDataset.r")
 source("mezclarDatasets.r")
 source("cargarDatasets.r")
-
+source("agrupaciones.r")
+datasets <- cargar("datasetsFinales/")
 data <- NULL
 for(i in datasets){
 	data <- rbind(data,i)
@@ -32,45 +35,15 @@ mean <- results[[2]]
 std <- results[[3]]
 
 write.csv(data,"datasetFinal/climate.csv",row.names=FALSE)
-rm(list=ls()[ls()!="mean" & ls()!="std"])
-print("Modify Finalizado")
-#Model
-source("clustering.r")
-source("agrupaciones.r")
-source("limpiarDataset.r")
-#A continuacion se realizan varios clusterings con distintos conjuntos de variables y agregaciones y con los resultados más
-#adecuados se procede a crear el arbol de decisión
-data <- read.csv("datasetFinal/climate.csv",header=TRUE)
 
-set.seed(0)
-
-#Se harán dos conjuntos de pruebas, unas agregando todos los ejemplos de los paises y otras utilizando todos los ejemplos.
-#Para cada conjunto se realizan diferentes conjuntos de variables para el entrenamiento.
-
-
-#Primera prueba, por cada país disponemos de un ejemplo, que tiene como campos, la temperatura media, agregando las medias anuales de
-#todos los años, y la lluvia media agregando las lluvias de todos los años
 Temperature <- sapply(unique(data$Country),function(x){mean(data[data$Country==x,"ATemperature"])})
 
 Rain <- sapply(unique(data$Country),function(x){mean(data[data$Country==x,"APrecipitation"])})
 
 dataAgregatedOneYearPerCountry <- data.frame(Country=unique(data$Country),ATemperature=Temperature,APrecipitation=Rain)
 
-plot(hclust(dist(dataAgregatedOneYearPerCountry[2:3])))
+write.csv(dataAgregatedOneYearPerCountry,"datasetFinal/climatePerCountry2Var.csv",row.names=FALSE)
 
-#Tras ver el diagrama se consideran apropiados 4-5 clusters
-
-result4 <- kmeans(dataAgregatedOneYearPerCountry[2:3],4)
-
-plot(dataAgregatedOneYearPerCountry[2:3],col=result4$cluster)
-
-result <- kmeans(dataAgregatedOneYearPerCountry[2:3],5)
-
-plot(dataAgregatedOneYearPerCountry[2:3],col=result$cluster)
-
-climate1 <- predictClimate(result4,data,c("ATemperature","APrecipitation"))
-
-#Segunda prueba agregados 6 meses
 data2 <- agregarSemestres(data)
 
 
@@ -84,15 +57,8 @@ ColdMonthsR <- sapply(unique(data2$Country),function(x){mean(data2[data2$Country
 
 dataAgregatedOneYearPerCountry <- data.frame(Country=unique(data2$Country),ColdMonthsT = ColdMonthsT, HotMonthsT = HotMonthsT,ColdMonthsR = ColdMonthsR, HotMonthsR = HotMonthsR)
 
-plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)])))
+write.csv(dataAgregatedOneYearPerCountry,"datasetFinal/climatePerCountry4Var.csv",row.names=FALSE)
 
-result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
-
-plot(matrix(c(Temperature,Rain),ncol=2),col=result4$cluster)
-
-climate2 <- predictClimate(result4,data2,c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR"))
-
-#Ultima prueba utilizando todas las variables menos el año y el país
 JanTemperature <- sapply(unique(data$Country),function(x){mean(data[data$Country==x,"JanTemperature"])})
 FebTemperature <- sapply(unique(data$Country),function(x){mean(data[data$Country==x,"FebTemperature"])})
 MarTemperature <- sapply(unique(data$Country),function(x){mean(data[data$Country==x,"MarTemperature"])})
@@ -128,6 +94,56 @@ dataAgregatedOneYearPerCountry <- data.frame(Country=unique(data$Country),JanTem
 								AprRain=AprRain,MayRain=MayRain,JunRain=JunRain,JulRain=JulRain,AugRain=AugRain,SepRain=SepRain,OctRain=OctRain,NovRain=NovRain,DecRain=DecRain,
 								ATemperature=Temperature,AMinTemperature=AMinTemperature,AMaxTemperature=AMaxTemperature,APrecipitation=Rain)
 
+write.csv(dataAgregatedOneYearPerCountry,"datasetFinal/climatePerCountryAllVar.csv",row.names=FALSE)
+
+write.csv(data2,"datasetFinal/climate4Var.csv",row.names=FALSE)
+
+rm(list=ls()[ls()!="mean" & ls()!="std"])
+print("Modify Finalizado")
+#Model
+source("clustering.r")
+
+#A continuacion se realizan varios clusterings con distintos conjuntos de variables y agregaciones y con los resultados más
+#adecuados se procede a crear el arbol de decisión
+data <- read.csv("datasetFinal/climate.csv",header=TRUE)
+
+set.seed(0)
+
+#Se harán dos conjuntos de pruebas, unas agregando todos los ejemplos de los paises y otras utilizando todos los ejemplos.
+#Para cada conjunto se realizan diferentes conjuntos de variables para el entrenamiento.
+
+
+#Primera prueba, por cada país disponemos de un ejemplo, que tiene como campos, la temperatura media, agregando las medias anuales de
+#todos los años, y la lluvia media agregando las lluvias de todos los años
+dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountry2Var.csv",header=TRUE)
+
+plot(hclust(dist(dataAgregatedOneYearPerCountry[2:3])))
+
+#Tras ver el diagrama se consideran apropiados 4-5 clusters
+
+result4 <- kmeans(dataAgregatedOneYearPerCountry[2:3],4)
+
+plot(dataAgregatedOneYearPerCountry[2:3],col=result4$cluster)
+
+result5 <- kmeans(dataAgregatedOneYearPerCountry[2:3],5)
+
+plot(dataAgregatedOneYearPerCountry[2:3],col=result5$cluster)
+
+climate1 <- predictClimate(result4,data,c("ATemperature","APrecipitation"))
+
+#Segunda prueba agregados 6 meses
+dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountry4Var.csv",header=TRUE)
+
+plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)])))
+
+result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
+
+plot(matrix(c(Temperature,Rain),ncol=2),col=result4$cluster)
+
+climate2 <- predictClimate(result4,data2,c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR"))
+
+#Ultima prueba utilizando todas las variables menos el año y el país
+dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountryAllVar.csv",header=TRUE)
 plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)])))
 
 result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
@@ -145,17 +161,17 @@ climate3 <- predictClimate(result4,data,c("JanTemperature","FebTemperature","Mar
 #Datos de temperaturas y lluvias medias anuales
 plot(hclust(dist(data[c("ATemperature","APrecipitation")])))
 
-result3 <- kmeans(data[3:length(data)],4)
+result3 <- kmeans(data[c("ATemperature","APrecipitation")],3)
 
-result4 <- kmeans(data[3:length(data)],4)
+result4 <- kmeans(data[c("ATemperature","APrecipitation")],4)
 
-result5 <- kmeans(data[3:length(data)],5)
+result5 <- kmeans(data[c("ATemperature","APrecipitation")],5)
 
 climate4 <- result4$cluster
 
 
 #Con datos agregados por semestres fríos y cálidos
-data2 <- agregarSemestres(data)
+data2 <- read.csv("datasetFinal/climate4Var.csv",header=TRUE)
 
 plot(hclust(dist(data2[c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR")])))
 
