@@ -5,7 +5,7 @@
 # datasets.
 #
 #################################################################################
-
+rm(list=ls())
 if(!require("RCurl")){
 	install.packages("RCurl")
 	require("RCurl")

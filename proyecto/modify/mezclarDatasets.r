@@ -6,6 +6,7 @@
 #
 #################################################################################
 
+rm(list=ls())
 # Rutas de los archivos
 directory <- "./sample/datasets/climateKnowledge/"
 directoryAfrica <- "./sample/datasets/tuTiempo/africa/"
@@ -47,13 +48,12 @@ for(nameOfFile in filesOnDirectory){
 	}
 	else if(is.element(nameOfFile, filesOnEurope)){
 		dataset1 <- read.csv(paste(directory,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)
-		dataset2 <- read.csv(paste(directoryEurope,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)		
+		dataset2 <- read.csv(paste(directoryEurope,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)	
 		write.csv(merge(dataset1,dataset2,by=c("Year"),all.x=TRUE),file = paste("sample/datasets/datasetsFinales/",nameOfFile,sep=""))
 	}
 	else if(is.element(nameOfFile,filesOnNorthAmerica)){
 		dataset1 <- read.csv(paste(directory,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)
 		dataset2 <- read.csv(paste(directoryNorthAmerica,nameOfFile,sep=""),header=TRUE,sep=",",dec=".",stringsAsFactor=FALSE)
-		merge(dataset1,dataset2,by=c("Year"))
 		write.csv(merge(dataset1,dataset2,by=c("Year"),all.x=TRUE),file = paste("sample/datasets/datasetsFinales/",nameOfFile,sep=""))
 	}
 	else if(is.element(nameOfFile, filesOnOceania)){

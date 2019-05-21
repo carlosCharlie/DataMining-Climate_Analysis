@@ -102,7 +102,7 @@ rm(list=ls()[ls()!="mean" & ls()!="std"])
 print("Modify Finalizado")
 #Model
 source("clustering.r")
-
+source("arboles.r")
 #A continuacion se realizan varios clusterings con distintos conjuntos de variables y agregaciones y con los resultados más
 #adecuados se procede a crear el arbol de decisión
 data <- read.csv("datasetFinal/climate.csv",header=TRUE)
@@ -130,6 +130,7 @@ result5 <- kmeans(dataAgregatedOneYearPerCountry[2:3],5)
 plot(dataAgregatedOneYearPerCountry[2:3],col=result5$cluster)
 
 climate1 <- predictClimate(result4,data,c("ATemperature","APrecipitation"))
+climate1Centers <- result4$centers
 
 #Segunda prueba agregados 6 meses
 dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountry4Var.csv",header=TRUE)
@@ -148,10 +149,6 @@ plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPer
 
 result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
 
-result5 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],5)
-
-result6 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],6)
-
 climate3 <- predictClimate(result4,data,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature",
 								"AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain",
 								"AprRain","MayRain","JunRain","JulRain","AugRain","SepRain","OctRain","NovRain","DecRain",
@@ -167,7 +164,11 @@ result4 <- kmeans(data[c("ATemperature","APrecipitation")],4)
 
 result5 <- kmeans(data[c("ATemperature","APrecipitation")],5)
 
-climate4 <- result4$cluster
+climate4.4 <- result4$cluster
+climate4.4Centers <- result4$centers
+
+climate4.5 <- result5$cluster
+climate4.5Centers <- result5$centers
 
 
 #Con datos agregados por semestres fríos y cálidos
@@ -177,9 +178,13 @@ plot(hclust(dist(data2[c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR")]
 
 result3 <- kmeans(data2[c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR")],3)
 
+result4 <- kmeans(data2[c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR")],4)
+
 result5 <- kmeans(data2[c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR")],5)
 
-climate5 <- result5$cluster
+climate5.4 <- result4$cluster
+
+climate5.5 <- result5$cluster
 
 
 #Con todas las variables disponibles (sin año ni país)
@@ -189,28 +194,82 @@ result4 <- kmeans(data[3:length(data)],4)
 
 climate6 <- result4$cluster
 
-#A continuacion con los 6 resultados obtenidos se entrenan y validan arboles de decision, de forma que se puede
-#comprobar si los resultados obtenidos por el clustering son satisfactorios. Si esto es así el arbol
-#debe ser capaz de predecir el clima. Finalmente se evaluarán los resultdos y se decidirá que clustering es más adecuado y cuál
-#sería el árbol de decision resultante
 
-data$Climate <- as.factor(climate1)
-aplicarDecisionTree(data[3:length(data)])
+#Por los motivos comentados en la memoria se seleccionan las 3 siguientes posibles clasificaciones para realizar una clasificacion de los datos utilizando arboles de decisión y bosques
+#aleatorios
 
-data$Climate <- as.factor(climate2)
-aplicarDecisionTree(data[3:length(data)])
+posibleClasification1 <- as.factor(climate1)
+posibleClasification2 <- as.factor(climate4.4)
+posibleClasification3 <- as.factor(climate4.5)
 
-data$Climate <- as.factor(climate3)
-aplicarDecisionTree(data[3:length(data)])
+#A continuación se prueba a crear un arbol de decisión y un bosque aleatorio por cada una de las posibles clasificaciones obtenidas de los clustering.
 
-data$Climate <- as.factor(climate4)
-aplicarDecisionTree(data[3:length(data)])
 
-data$Climate <- as.factor(climate5)
-aplicarDecisionTree(data[3:length(data)])
+data$Climate <- posibleClasification1
+arbol1DT <- aplicarDecisionTree(data[3:length(data)])
 
-data$Climate <- as.factor(climate6)
-aplicarDecisionTree(data[3:length(data)])
+arbol1RF <- aplicarRandomForest(data[3:length(data)])
+
+arbol1 <- arbol1DT
+
+data$Climate <- posibleClasification2
+arbol2DT <- aplicarDecisionTree(data[3:length(data)])
+
+arbol2RF <- aplicarRandomForest(data[3:length(data)])
+
+arbol2 <- arbol2DT
+
+data$Climate <- posibleClasification3
+arbol3DT <- aplicarDecisionTree(data[3:length(data)])
+
+arbol3RF <- aplicarRandomForest(data[3:length(data)])
+
+arbol3DT <- arbol3
+
+#Tras aplicar los modelos se procede a analizar los clusters dentro de cada clasificación posible para asignar un clima a cada cluster.
+data$Climate <- posibleClasification1
+
+print(climate1Centers)
+print(summary(data[data$Climate==1,"Country"]))
+print(summary(data[data$Climate==2,"Country"]))
+print(summary(data[data$Climate==3,"Country"]))
+print(summary(data[data$Climate==4,"Country"]))
+#En vista a los resultados se establecen los siguientes nombres
+#1 - Seco
+#2 - Templado
+#3 - Continental
+#4 - Tropical
+levels(posibleClasification1) <- c("Seco","Templado","Continental","Tropical") 
+
+data$Climate <- posibleClasification2
+
+print(climate4.4Centers)
+print(summary(data[data$Climate==1,"Country"]))
+print(summary(data[data$Climate==2,"Country"]))
+print(summary(data[data$Climate==3,"Country"]))
+print(summary(data[data$Climate==4,"Country"]))
+#En vista a los resultados se establecen los siguientes nombres
+#1 - Seco
+#2 - Tropical 
+#3 - Continental
+#4 - Templado
+levels(posibleClasification1) <- c("Seco","Tropical","Continental","Templado")
+
+data$Climate <- posibleClasification3
+
+print(climate4.5Centers)
+print(summary(data[data$Climate==1,"Country"]))
+print(summary(data[data$Climate==2,"Country"]))
+print(summary(data[data$Climate==3,"Country"]))
+print(summary(data[data$Climate==4,"Country"]))
+print(summary(data[data$Climate==5,"Country"]))
+#En vista a los resultados se establecen los siguientes nombres
+#1 - Tropical 
+#2 - Seco
+#3 - Continental
+#4 - Tropical medio
+#5 - Templado
+levels(posibleClasification1) <- c("Tropical","Seco","Continental","Tropical medio","Templado")
 
 #Finalmente comprobamos como evoluciona el clima de algunos países
 

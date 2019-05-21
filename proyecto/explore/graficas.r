@@ -18,6 +18,7 @@ plotVsMonth <- function(data,var1,years){
 	months <- data$Month[selectRows]
 	var <- data[selectRows,var1]
 	barplot(var,names.arg=months)
+	lines(rep(data[selectRows,grepl(paste("^A",var1,sep=""),colnames(data))],12), col="red")
 }
 
 plot2VsMonth <- function(data,var1,var2,years){
@@ -27,6 +28,7 @@ plot2VsMonth <- function(data,var1,var2,years){
 	varp <- data[selectRows,var2]
 	var <- rbind(var,varp)
 	barplot(var,names.arg=months, beside=TRUE)
+	legend("topright", legend=c(var1,var2),fill=c("grey30","grey80"))
 }
 
 plotThroughYears <- function(data,var1,years){
