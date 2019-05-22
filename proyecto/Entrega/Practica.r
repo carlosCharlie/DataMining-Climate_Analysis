@@ -9,6 +9,34 @@ rm(list=ls())
 source("graficas.r")
 source("cargarDatasets.r")
 data <- cargar("datasets/climateKnowledge/")
+
+#Se observa la estructura de los datos
+head(data$afghanistan)
+
+#Para deteminar si existen diferencias se comparan paises de climas diferentes
+plotVsMonth(data$afghanistan,"Temperature",c(2016))
+plotVsMonth(data$norway,"Temperature",c(2016))
+plotVsMonth(data$mexico,"Temperature",c(2016))
+plotVsMonth(data$brazil,"Temperature",c(2016))
+
+plotVsMonth(data$afghanistan,"Rain",c(2016))
+plotVsMonth(data$norway,"Rain",c(2016))
+plotVsMonth(data$mexico,"Rain",c(2016))
+plotVsMonth(data$brazil,"Rain",c(2016))
+
+#Se cuentan NA
+nas <- lapply(data,function(x){lapply(x,function(y){sum(is.na(y))})})
+print(sum(unlist(nas,use.names=FALSE)))
+
+data <- cargar("datasets/tuTiempo/asia/")
+
+#Se observa la estructura de los datos
+head(data$afghanistan)
+
+#Se cuentan NA
+nas <- lapply(data,function(x){lapply(x,function(y){sum(is.na(y))})})
+print(sum(unlist(nas,use.names=FALSE)))
+
 print("Explore Finalizado")
 rm(list=ls())
 #Modify
@@ -100,6 +128,7 @@ write.csv(data2,"datasetFinal/climate4Var.csv",row.names=FALSE)
 
 rm(list=ls()[ls()!="mean" & ls()!="std"])
 print("Modify Finalizado")
+
 #Model
 source("clustering.r")
 source("arboles.r")
@@ -133,21 +162,22 @@ climate1 <- predictClimate(result4,data,c("ATemperature","APrecipitation"))
 climate1Centers <- result4$centers
 
 #Segunda prueba agregados 6 meses
-dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountry4Var.csv",header=TRUE)
+data2 <- read.csv("datasetFinal/climate4Var.csv",header=TRUE)
+dataAgregatedOneYearPerCountry2 <- read.csv("datasetFinal/climatePerCountry4Var.csv",header=TRUE)
 
-plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)])))
+plot(hclust(dist(dataAgregatedOneYearPerCountry2[2:length(dataAgregatedOneYearPerCountry2)])))
 
-result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
+result4 <- kmeans(dataAgregatedOneYearPerCountry2[2:length(dataAgregatedOneYearPerCountry2)],4)
 
-plot(matrix(c(Temperature,Rain),ncol=2),col=result4$cluster)
+plot(matrix(c(dataAgregatedOneYearPerCountry$ATemperature,dataAgregatedOneYearPerCountry$APrecipitation),ncol=2),col=result4$cluster)
 
 climate2 <- predictClimate(result4,data2,c("ColdMonthsT","HotMonthsT","ColdMonthsR","HotMonthsR"))
 
 #Ultima prueba utilizando todas las variables menos el año y el país
-dataAgregatedOneYearPerCountry <- read.csv("datasetFinal/climatePerCountryAllVar.csv",header=TRUE)
-plot(hclust(dist(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)])))
+dataAgregatedOneYearPerCountry3 <- read.csv("datasetFinal/climatePerCountryAllVar.csv",header=TRUE)
+plot(hclust(dist(dataAgregatedOneYearPerCountry3[2:length(dataAgregatedOneYearPerCountry3)])))
 
-result4 <- kmeans(dataAgregatedOneYearPerCountry[2:length(dataAgregatedOneYearPerCountry)],4)
+result4 <- kmeans(dataAgregatedOneYearPerCountry3[2:length(dataAgregatedOneYearPerCountry3)],4)
 
 climate3 <- predictClimate(result4,data,c("JanTemperature","FebTemperature","MarTemperature","AprTemperature","MayTemperature","JunTemperature","JulTemperature",
 								"AugTemperature","SepTemperature","OctTemperature","NovTemperature","DecTemperature","JanRain","FebRain","MarRain",
@@ -224,7 +254,9 @@ arbol3DT <- aplicarDecisionTree(data[3:length(data)])
 
 arbol3RF <- aplicarRandomForest(data[3:length(data)])
 
-arbol3DT <- arbol3
+arbol3 <- arbol3DT
+
+
 
 #Tras aplicar los modelos se procede a analizar los clusters dentro de cada clasificación posible para asignar un clima a cada cluster.
 data$Climate <- posibleClasification1
@@ -239,7 +271,8 @@ print(summary(data[data$Climate==4,"Country"]))
 #2 - Templado
 #3 - Continental
 #4 - Tropical
-levels(posibleClasification1) <- c("Seco","Templado","Continental","Tropical") 
+levels(posibleClasification1) <- c("Seco","Templado","Continental","Tropical")
+rownames(climate1Centers) <- c("Seco","Templado","Continental","Tropical")  
 
 data$Climate <- posibleClasification2
 
@@ -253,7 +286,8 @@ print(summary(data[data$Climate==4,"Country"]))
 #2 - Tropical 
 #3 - Continental
 #4 - Templado
-levels(posibleClasification1) <- c("Seco","Tropical","Continental","Templado")
+levels(posibleClasification2) <- c("Seco","Tropical","Continental","Templado")
+rownames(climate4.4Centers) <- c("Seco","Tropical","Continental","Templado")
 
 data$Climate <- posibleClasification3
 
@@ -269,10 +303,38 @@ print(summary(data[data$Climate==5,"Country"]))
 #3 - Continental
 #4 - Tropical medio
 #5 - Templado
-levels(posibleClasification1) <- c("Tropical","Seco","Continental","Tropical medio","Templado")
+levels(posibleClasification3) <- c("Tropical","Seco","Continental","Tropical medio","Templado")
+rownames(climate4.5Centers) <- c("Tropical","Seco","Continental","Tropical medio","Templado")
+
 
 #Finalmente comprobamos como evoluciona el clima de algunos países
 
-resultadoMasAdecuado <- result4
+bestResult <- posibleClasification1
+bestResultCenters <- climate1Centers
+data$Climate <- bestResult
 
-distances <- lapply(data[data$Country="Francia",3:length(data)],function(x){dist(rbind(x,resultadoMasAdecuado$center["seco"]), method ="euclidean")[[1]]})
+print(data[data$Country=="Italy",c("Year","Climate")])
+
+print(summary(data[data$Country=="Italy","Climate"]))
+
+#Cambiar el nivel de detalle sirve para plotear más o menos años, ya que las tempeaturas no parecen ser muy constantes y de esa forma suavizar la funcion
+agregationLevel <- 10
+
+plot(data[data$Country=="Italy",c("Year","ATemperature")][seq(1,nrow(data[data$Country=="Italy",c("Year","ATemperature")])+1,agregationLevel),],type="l",col="red",ylim=c(-1,0.5))
+par(new=TRUE)
+plot(data[data$Country=="Italy",c("Year","APrecipitation")][seq(1,nrow(data[data$Country=="Italy",c("Year","APrecipitation")])+1,agregationLevel),],type="l",col="blue",ylim=c(-1,0.5))
+legend("topright", legend=c("Temperature","Precipitation"),fill=c("red","blue"))
+
+
+
+distances <- apply(data[data$Country=="France",c("ATemperature","APrecipitation")],1,function(x){dist(rbind(x,bestResultCenters["Seco",]), method ="euclidean")[[1]]})
+
+agregationLevel <- 10
+whichPrint <- seq(1,length(distances)+1,agregationLevel)
+plot(data[data$Country=="France","Year"][whichPrint],distances[whichPrint],type="l",col="red")
+
+distances <- apply(data[data$Country=="Czech Republic",c("ATemperature","APrecipitation")],1,function(x){dist(rbind(x,bestResultCenters["Seco",]), method ="euclidean")[[1]]})
+
+agregationLevel <- 10
+whichPrint <- seq(1,length(distances)+1,agregationLevel)
+plot(data[data$Country=="Czech Republic","Year"][whichPrint],distances[whichPrint],type="l",col="red")

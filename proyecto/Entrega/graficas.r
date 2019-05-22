@@ -21,7 +21,6 @@ plotVsMonth <- function(data,var1,years){
 	months <- data$Month[selectRows]
 	var <- data[selectRows,var1]
 	barplot(var,names.arg=months)
-	lines(rep(data[selectRows,grepl(paste("^A",var1,sep=""),colnames(data))],12), col="red")
 }
 
 #Dada dos variables printa ambas en un grafico de barras teniendo a los meses en el eje x.
