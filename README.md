@@ -1,3 +1,5 @@
+<p align="center">(converted from an original .docx document)</p>
+
 ![NO\_CAPTION null](media/image49.jpg)
 
 ***Análisis del clima mundial***
